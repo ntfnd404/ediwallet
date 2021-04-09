@@ -1,0 +1,5 @@
+{
+    "editor.minimap.maxColumn": 12,
+    "editor.scrollBeyondLastColumn": 50,
+    "[dart]" : {"editor.rulers": []}
+}
