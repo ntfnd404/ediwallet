@@ -44,18 +44,50 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Stack(children: <Widget>[
             Container(
-                height: MediaQuery.of(context).size.width / 1.5,
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0.0, 2.0),
-                          blurRadius: 6.0),
-                    ],
-                    gradient: new LinearGradient(colors: [
-                      Color.fromRGBO(43, 136, 216, 1),
-                      Color.fromRGBO(0, 31, 120, 1)
-                    ], begin: Alignment.topLeft, end: Alignment.bottomRight))),
+              height: MediaQuery.of(context).size.width / 1.5,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 6.0),
+                ],
+                gradient: new LinearGradient(colors: [
+                  Color.fromRGBO(43, 136, 216, 1),
+                  Color.fromRGBO(0, 31, 120, 1)
+                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+              ),
+            ),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: TextButton.icon(
+                  onPressed: () {
+                    print("Clicked!!!2");
+                  },
+                  icon: Icon(
+                    Icons.calendar_today,
+                    color: Colors.white,
+                  ),
+                  label: Text("11.02.2021 - 31.02.2021"),
+                  style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white)),
+                ),
+                // child: Opacity(
+                //     opacity: 1,
+                //     child: ElevatedButton.icon(
+                //       onPressed: () {
+                //         print("Clicked!!!");
+                //       },
+                //       icon: Icon(
+                //         Icons.calendar_today,
+                //         color: Colors.white,
+                //       ),
+                //       label: Text("Test"),
+                //     )),
+              ),
+            )
           ])
         ],
       ),
