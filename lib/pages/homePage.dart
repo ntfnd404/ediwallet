@@ -225,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           onPressed: () {
-                            showSnakBar(context);
+                            showSnakBar(context, "Filter pressed");
                           },
                         ),
                       ))
@@ -246,7 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.black,
                         ),
                     itemBuilder: (context, index) {
-                      Transaction transaction = transactions[index];
+                      final Transaction transaction = transactions[index];
                       return GestureDetector(
                         onTap: () => Navigator.push(
                             context,
@@ -318,6 +318,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          // Client rnd = testClients[math.Random().nextInt(testClients.length)];
+          // await DBProvider.db.newClient(rnd);
+          // setState(() {});
+        },
+      ),
     );
   }
 
@@ -328,25 +336,27 @@ class _MyHomePageState extends State<MyHomePage> {
         await httpService.fetchFromServer("bookkeeping/pays", '{"path":"re"}');
 
     if (responce.statusCode == 200) {
-      List<Transaction> trs =
+      List<Transaction> apiItems =
           parser.transactions(utf8.decode(responce.bodyBytes));
 
       setState(() {
         if (refresh) {
           transactions.clear();
         }
-        trs.forEach((element) {
+        apiItems.forEach((element) {
           transactions.add(element);
         });
       });
+    } else {
+      showSnakBar(context, "Ошибка получения данных с сервера");
     }
   }
 }
 
-showSnakBar(context) {
+showSnakBar(context, message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text("Toasty!!!"),
+      content: Text(message),
     ),
   );
 }

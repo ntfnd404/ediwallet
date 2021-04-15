@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Transaction {
   final String author;
   final String department;
@@ -22,6 +24,30 @@ class Transaction {
         json['time'] as String,
         json['type'] as String,
         json['user'] as String,
-        json['mathSymbol']);
+        json['mathSymbol'] as String);
   }
+
+  String clientToJson(Transaction transaction) {
+    final transactionJson = transaction.toJson();
+    return json.encode(transactionJson);
+  }
+
+  Map<String, dynamic> toJson() => {
+        "author": author,
+        "department": department,
+        "date": date,
+        "sum": sum,
+      };
+
+  // factory String.toJson(Transaction transaction) {
+  //   Map<String, Transaction>() => {
+  //         "author": author,
+  //         "department": department,
+  //         "date": date,
+  //         "sum": sum,
+  //       };
+
+  //   return "rr";
+  //   // return json.encode(d);
+  // }
 }
