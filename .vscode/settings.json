@@ -1,5 +1,9 @@
 {
     "editor.minimap.maxColumn": 12,
     "editor.scrollBeyondLastColumn": 50,
-    "[dart]" : {"editor.rulers": []}
+    "[dart]": {
+        "editor.rulers": []
+    },
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true
 }
