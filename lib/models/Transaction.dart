@@ -9,12 +9,13 @@ class Transaction {
   final String time;
   final String type;
   final String user;
+  final String analytics;
   final String mathSymbol;
 
   Transaction(this.author, this.department, this.date, this.sum, this.source,
-      this.time, this.type, this.user, this.mathSymbol);
+      this.time, this.type, this.user, this.analytics, this.mathSymbol);
 
-  factory Transaction.fromJson(dynamic json) {
+  factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
         json['author'] as String,
         json['department'] as String,
@@ -24,6 +25,7 @@ class Transaction {
         json['time'] as String,
         json['type'] as String,
         json['user'] as String,
+        json['analytics'] as String,
         json['mathSymbol'] as String);
   }
 
@@ -32,11 +34,11 @@ class Transaction {
     return json.encode(transactionJson);
   }
 
-  Map<String, dynamic> toJson() => {
-        "author": author,
-        "department": department,
-        "date": date,
-        "sum": sum,
+  Map<String, String> toJson() => {
+        'author': author,
+        'department': department,
+        'date': date,
+        'sum': sum.toString(),
       };
 
   // factory String.toJson(Transaction transaction) {
