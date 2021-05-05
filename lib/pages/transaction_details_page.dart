@@ -1,8 +1,9 @@
-import 'package:ediwallet/models/transaction.dart';
+import 'package:ediwallet/transaction_page/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionDetailsPage extends StatefulWidget {
-  const TransactionDetailsPage({Key key, this.transaction}) : super(key: key);
+  const TransactionDetailsPage({Key? key, required this.transaction})
+      : super(key: key);
   final Transaction transaction;
 
   @override

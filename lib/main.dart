@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:ediwallet/pages/home_page/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 
-void main() => runApp(MyApp());
+// import 'data/transactions_list_model.dart';
 
-class MyApp extends StatelessWidget {
+GetIt getIt = GetIt.instance;
+
+void main() {
+  // getIt.registerLazySingleton<TransactionsListModel>(
+  //     () => TransactionsListModel());
+
+  runApp(App());
+}
+
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
