@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ediwallet/pages/home_page/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+
+import 'package:ediwallet/screens/transaction_home_page/view/home_page.dart';
 
 // import 'data/transactions_list_model.dart';
 

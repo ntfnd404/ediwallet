@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:ediwallet/dds/models/dds.dart';
+import 'package:ediwallet/screens/dds/models/dds.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:ediwallet/transaction/models/transaction.dart'
+import 'package:ediwallet/screens/transaction_home_page/models/transaction.dart'
     as transaction_class;
 
 // https://habr.com/ru/post/435418/
