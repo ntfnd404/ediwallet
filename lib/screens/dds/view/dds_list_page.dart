@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:ediwallet/screens/transaction_home_page/bloc/scroll_event.dart';
-import 'package:ediwallet/screens/dds/bloc/dds_bloc.dart';
+import 'package:ediwallet/blocs/bloc/scroll_event.dart';
+import 'package:ediwallet/blocs/dds_list_bloc/dds_bloc.dart';
 import 'package:ediwallet/screens/dds/widgets/dds_list.dart';
 
 class DDSListPage extends StatelessWidget {

@@ -37,70 +37,71 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      // scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        ListTile(
-                          title: const Text('Наличные'),
-                          leading: Radio(
-                              value: PaymentType.lafayette,
-                              groupValue: _paymentType,
-                              onChanged: (PaymentType? value) {
-                                setState(() => _paymentType = value);
-                              }),
-                        ),
-                        ListTile(
-                          title: const Text('Безналично'),
-                          leading: Radio<PaymentType>(
-                            value: PaymentType.jefferson,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    // scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      ListTile(
+                        title: const Text('Наличные'),
+                        leading: Radio(
+                            value: PaymentType.lafayette,
                             groupValue: _paymentType,
                             onChanged: (PaymentType? value) {
-                              setState(() {
-                                _paymentType = value;
-                              });
-                            },
-                          ),
-                        ),
-                        ListTile(
-                          title: const Text('Терминал'),
-                          leading: Radio<PaymentType>(
-                            value: PaymentType.terminal,
-                            groupValue: _paymentType,
-                            onChanged: (PaymentType? value) {
-                              setState(() {
-                                _paymentType = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const TransactionAddItem(
-                        DDSListPage(), 'Тип оплаты', 'Выберете тип оплаты'),
-                    const TransactionAddItem(
-                        DDSListPage(), 'ДДС', 'Выберете ДДС'),
-                    const TransactionAddItem(
-                        DDSListPage(), 'Отдел', 'Выберете отдел'),
-                    TransactionAddItem(
-                        const DDSListPage(), 'Сумма', 'Введите сумму',
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.done,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ]),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Сохранить'),
+                              setState(() => _paymentType = value);
+                            }),
+                      ),
+                      ListTile(
+                        title: const Text('Безналично'),
+                        leading: Radio<PaymentType>(
+                          value: PaymentType.jefferson,
+                          groupValue: _paymentType,
+                          onChanged: (PaymentType? value) {
+                            setState(() {
+                              _paymentType = value;
+                            });
+                          },
                         ),
                       ),
-                    )
-                  ]),
+                      ListTile(
+                        title: const Text('Терминал'),
+                        leading: Radio<PaymentType>(
+                          value: PaymentType.terminal,
+                          groupValue: _paymentType,
+                          onChanged: (PaymentType? value) {
+                            setState(() {
+                              _paymentType = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const TransactionAddItem(
+                      DDSListPage(), 'Тип оплаты', 'Выберете тип оплаты'),
+                  const TransactionAddItem(
+                      DDSListPage(), 'ДДС', 'Выберете ДДС'),
+                  const TransactionAddItem(
+                      DDSListPage(), 'Отдел', 'Выберете отдел'),
+                  TransactionAddItem(
+                      const DDSListPage(), 'Сумма', 'Введите сумму',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ]),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Сохранить'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

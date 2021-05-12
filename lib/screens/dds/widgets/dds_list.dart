@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:ediwallet/screens/dds/bloc/dds_bloc.dart';
-import 'package:ediwallet/screens/dds/models/dds.dart';
+import 'package:ediwallet/blocs/dds_list_bloc/dds_bloc.dart';
+import 'package:ediwallet/blocs/scroll_state.dart';
+import 'package:ediwallet/models/dds.dart';
 import 'package:ediwallet/screens/dds/widgets/dds_list_item.dart';
-import 'package:ediwallet/screens/transaction_home_page/bloc/scroll_event.dart';
-import 'package:ediwallet/common/widgets/bottom_loader.dart';
-import 'package:ediwallet/common/bloc/scroll_state.dart';
+import 'package:ediwallet/blocs/bloc/scroll_event.dart';
+import 'package:ediwallet/common/bottom_loader.dart';
 
 class DDSList extends StatefulWidget {
   const DDSList({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ediwallet/screens/dds/models/dds.dart';
+import 'package:ediwallet/models/dds.dart';
 
 class DDSListItem extends StatelessWidget {
   const DDSListItem({Key? key, required this.dds}) : super(key: key);

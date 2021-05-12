@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:ediwallet/common/bloc/base_repository.dart';
-import 'package:ediwallet/screens/dds/models/dds.dart';
+import 'package:ediwallet/repositories/base_repository.dart';
+import 'package:ediwallet/models/dds.dart';
 
 class DDSRepository implements BaseRepository {
   @override

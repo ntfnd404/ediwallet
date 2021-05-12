@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ediwallet/screens/transaction_home_page/models/transaction.dart';
+
+import 'package:ediwallet/models/transaction.dart';
 
 class TransactionDetailsPage extends StatefulWidget {
   const TransactionDetailsPage({Key? key, required this.transaction})

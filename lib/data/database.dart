@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:ediwallet/screens/dds/models/dds.dart';
+import 'package:ediwallet/models/dds.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:ediwallet/screens/transaction_home_page/models/transaction.dart'
-    as transaction_class;
+import 'package:ediwallet/models/transaction.dart' as wallet_transaction;
 
 // https://habr.com/ru/post/435418/
 
@@ -45,7 +44,7 @@ class DBProvider {
   }
 
   Future<int> createTransaction(
-      transaction_class.Transaction newTransaction) async {
+      wallet_transaction.Transaction newTransaction) async {
     // final db = database;
     //get the biggest id in the table
     final table =
@@ -73,15 +72,15 @@ class DBProvider {
     final res =
         await database!.query('Transactions', where: 'id = ?', whereArgs: [id]);
     return res.isNotEmpty
-        ? transaction_class.Transaction.fromJson(res.first)
+        ? wallet_transaction.Transaction.fromJson(res.first)
         : Null;
   }
 
   Future<List> getAllTransactions() async {
     final res = await database!.query('Transactions');
     return res.isNotEmpty
-        ? res.map((c) => transaction_class.Transaction.fromJson(c)).toList()
-        : List<transaction_class.Transaction>.empty();
+        ? res.map((c) => wallet_transaction.Transaction.fromJson(c)).toList()
+        : List<wallet_transaction.Transaction>.empty();
   }
 
   Future deleteAllTransactios() async {
