@@ -1,4 +1,4 @@
-import 'package:ediwallet/blocs/bloc_event.dart';
+import '../bloc_event.dart';
 
 class ScrollEvent extends Event {
   ScrollEvent(
