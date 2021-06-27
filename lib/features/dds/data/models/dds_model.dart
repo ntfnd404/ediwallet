@@ -1,4 +1,4 @@
-import 'package:ediwallet/features/dds/domain/entities/dds_entity.dart';
+import '../../domain/entities/dds_entity.dart';
 
 class DDSModel extends DDS {
   const DDSModel(
@@ -9,8 +9,8 @@ class DDSModel extends DDS {
     return DDSModel(
         id: json['id'] as String,
         name: json['name'] as String,
-        isComing: json['is_coming'] as bool);
+        isComing: json['isComing'] == 1);
   }
 
-  Map<String, String> toJson() => {'id': id, 'name': name};
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }

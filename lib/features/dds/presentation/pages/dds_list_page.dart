@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 
-import '../../../../blocs/bloc/scroll_event.dart';
-import '../../../transactions/presentation/pages/dds_page/widgets/dds_list.dart';
-import '../bloc/dds_bloc.dart';
+import '../../../../di_container.dart';
+import '../bloc/dds_cubit.dart';
+import '../widgets/dds_list.dart';
 
 class DDSListPage extends StatelessWidget {
   const DDSListPage({Key? key}) : super(key: key);
@@ -12,13 +11,13 @@ class DDSListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Posts')),
+      appBar: AppBar(title: const Text('DDS')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: BlocProvider(
-              create: (_) =>
-                  DDSBloc(httpClient: http.Client())..add(ScrollEvent()),
+          child: BlocProvider<DDSCubit>(
+              lazy: true,
+              create: (context) => sl<DDSCubit>()..getDDSItems(),
               child: const DDSList()),
         ),
       ),

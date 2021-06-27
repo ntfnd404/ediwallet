@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../transactions/presentation/pages/home_page/home_page.dart';
+import '../../../transactions/presentation/pages/home_page.dart';
 import '../bloc/confirm_cubit.dart';
 
 class ConfirmPage extends StatefulWidget {

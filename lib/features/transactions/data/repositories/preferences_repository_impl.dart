@@ -3,7 +3,7 @@ import '../datasources/preferences_data_source.dart';
 import '../models/date_range_model.dart';
 
 class PreferencesRepositoryImpl implements PreferencesRepository {
-  final PreferencesDataSource preferencesDataSource;
+  final IPreferencesDataSource preferencesDataSource;
 
   PreferencesRepositoryImpl({required this.preferencesDataSource});
 

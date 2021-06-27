@@ -1,13 +1,13 @@
-import 'package:ediwallet/features/transactions/data/models/date_range_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class PreferencesDataSource {
-  Future<void> setDateRange(
-      {required String startDate, required String endDate});
+import '../models/date_range_model.dart';
+
+abstract class IPreferencesDataSource {
   Future<DateRangeModel> getDateRange();
+  Future setDateRange({required String startDate, required String endDate});
 }
 
-class PreferencesDataSourceImpl implements PreferencesDataSource {
+class PreferencesDataSourceImpl implements IPreferencesDataSource {
   final SharedPreferences preferences;
 
   PreferencesDataSourceImpl({required this.preferences});
@@ -24,7 +24,7 @@ class PreferencesDataSourceImpl implements PreferencesDataSource {
   }
 
   @override
-  Future<void> setDateRange(
+  Future setDateRange(
       {required String startDate, required String endDate}) async {
     await preferences.setStringList('date_time', [startDate, endDate]);
   }

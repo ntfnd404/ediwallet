@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/bloc/base_state.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../domain/entities/transaction_entity.dart';
-import '../bloc/transactions_list_cubit/transactions_list_cubit.dart';
+import '../bloc/transactions_list_cubit.dart';
 import 'transaction_list_item.dart';
 
 class TransactionsList extends StatefulWidget {
@@ -36,31 +36,56 @@ class _TransactionsListState extends State<TransactionsList> {
         }
       },
       builder: (context, state) {
-        if (state is TransactionsListSuccessState) {
-          // if (state.items.isEmpty) {
-          // TODO: позволяем билдеру отрисовать кешированные записи. но увндомдяем снак баром
-          // showSnakBar(context, 'Отсутсвуют транзакции');
-          //   return const Center(child: Text('Отсутсвуют транзакции'));
-          // }
+        if (state is ItemsListSuccessState<Transaction>) {
+          if (state.items.isEmpty) {
+            // TODO: позволяем билдеру отрисовать кешированные записи. но уведомляем снак баром
+            // showSnakBar(context, 'Отсутсвуют транзакции');
+            // return const Center(child: Text('Отсутсвуют транзакции'));
+            // return Center(
+            //   child: SizedBox(
+            //     height: 25,
+            //     width: 25,
+            //     child: TextButton.icon(
+            //       onPressed: () => _onRefresh(),
+            //       icon: Image.asset(
+            //         'assets/images/refresh_icon.png',
+            //         fit: BoxFit.fill,
+            //       ),
+            //       label: const Text('Обновить'),
+            //     ),
+            //   ),
+            // );
+          }
           return RefreshIndicator(
             onRefresh: () => _onRefresh(),
-            child: ListView.builder(
-              padding: const EdgeInsets.all(10.0),
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemExtent: 94.0,
-              itemCount: state.hasReachedMax
-                  ? state.items.length
-                  : state.items.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (index >= state.items.length) {
-                  return BottomLoader();
-                } else {
-                  final Transaction transaction = state.items[index];
-                  return TransactionListItem(transaction: transaction);
-                }
-              },
-            ),
+            child: state.items.isEmpty
+                ? Center(
+                    child: GestureDetector(
+                      onTap: () => _onRefresh(),
+                      child: Image.asset(
+                        'assets/images/refresh_icon.png',
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(10.0),
+                    controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemExtent: 94.0,
+                    itemCount: state.hasReachedMax
+                        ? state.items.length
+                        : state.items.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index >= state.items.length) {
+                        return BottomLoader();
+                      } else {
+                        final Transaction transaction = state.items[index];
+                        return TransactionListItem(transaction: transaction);
+                      }
+                    },
+                  ),
           );
         } else if (state is LoadingState || state is InitialState) {
           return const Center(child: CircularProgressIndicator());

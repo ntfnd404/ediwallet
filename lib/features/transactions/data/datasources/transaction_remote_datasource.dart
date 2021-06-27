@@ -5,10 +5,15 @@ import 'package:http/http.dart';
 import '../../../../core/error/exception.dart';
 import '../models/transaction_model.dart';
 
-abstract class TransactionRemoteDataSource {
-  Future<void> addTransaction({required String authKey});
+abstract class ITransactionRemoteDataSource {
+  Future<void> addTransaction(
+      {required String authKey,
+      required int paymentType,
+      required String sourceId,
+      required String departmentId,
+      required String sum});
 
-  Future<List<TransactionModel>> getAllTransactions(
+  Future<List<TransactionModel>> getTransactions(
       {int page = 0,
       required String authKey,
       required String startDate,
@@ -16,24 +21,19 @@ abstract class TransactionRemoteDataSource {
       required String filters});
 }
 
-class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
+class TransactionRemoteDataSourceImpl implements ITransactionRemoteDataSource {
   Client client;
 
   TransactionRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<void> addTransaction({required String authKey}) {
-    // TODO: implement addTransaction
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<TransactionModel>> getAllTransactions(
-      {int page = 0,
-      required String authKey,
-      required String startDate,
-      required String endDate,
-      required String filters}) async {
+  Future addTransaction({
+    required String authKey,
+    required int paymentType,
+    required String sourceId,
+    required String departmentId,
+    required String sum,
+  }) async {
     final Response response = await client.post(
         Uri.https('edison.group', '/cstest/hs/bookkeeping/pays'),
         headers: {
@@ -41,7 +41,28 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
           'Authorization': 'Basic $authKey'
         },
         body:
-            '{"FirstPage":"$page","StartDate":"$startDate","EndDate":"$endDate","Filters":$filters}');
+            '{"paymentType":$paymentType,"sourceId":"$sourceId","departmentId":"$departmentId","employeeType":"engeneer","employeeId":"133033","sum":"$sum"}'); //engenee, postman, employee
+
+    if (response.statusCode != 201) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<TransactionModel>> getTransactions(
+      {int page = 0,
+      required String authKey,
+      required String startDate,
+      required String endDate,
+      required String filters}) async {
+    final Response response = await client.get(
+      Uri.https('edison.group',
+          '/cstest/hs/bookkeeping/pays?page=$page&start_date=$startDate&end_date=$endDate&filters=$filters'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic $authKey'
+      },
+    );
 
     if (response.statusCode == 200) {
       final List body = json.decode(utf8.decode(response.bodyBytes)) as List;

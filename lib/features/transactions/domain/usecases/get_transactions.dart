@@ -35,7 +35,7 @@ class GetTransactions implements UseCase<List<Transaction>, TransactionParams> {
         ? _dateTimeString.endDate
         : DateTime.now().toString();
 
-    return transactionRepository.getAllTransactions(
+    return transactionRepository.getTransactions(
         page: params.page,
         authKey: _authKey!,
         startDate: _startDate,

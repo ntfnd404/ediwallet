@@ -30,7 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     final Response response = await _httpClient.get(
       Uri.https('edison.group',
-          '/cstest/hs/bookkeeping/confirmsmscode/$_verificationCode'),
+          '/cstest/hs/bookkeeping/confirmsmscode?confirmsmscode=$_verificationCode'),
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Basic $_base64String'

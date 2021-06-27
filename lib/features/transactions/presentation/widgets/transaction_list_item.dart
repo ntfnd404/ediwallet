@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/transaction_entity.dart';
-import '../pages/transaction_details_page/transaction_details_page.dart';
+import '../pages/transaction_details_page.dart';
 
 class TransactionListItem extends StatelessWidget {
   const TransactionListItem({Key? key, required this.transaction})
@@ -30,8 +30,7 @@ class TransactionListItem extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(6),
-            onTap: () => Navigator.push<MaterialPageRoute>(
-              context,
+            onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) =>
                     TransactionDetailsPage(transaction: transaction),

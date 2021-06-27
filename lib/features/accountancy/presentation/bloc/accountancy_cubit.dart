@@ -32,7 +32,7 @@ class AccountancyCubit extends Cubit<AccountancySucces> {
 
     final Response response = await _httpClient.get(
       Uri.https('edison.group',
-          '/cstest/hs/bookkeeping/accountancy/$_firstDate/$_lastDate'),
+          '/cstest/hs/bookkeeping/accountancy?start_date=$_firstDate&end_date=$_lastDate'),
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Basic bnRmbmQ6dmZuYmttbGY='
@@ -50,7 +50,8 @@ class AccountancyCubit extends Cubit<AccountancySucces> {
           debt: body['debt']! as String,
           balance: body['balance']! as String));
     } else if (response.statusCode == 614) {
-      throw Exception('Отсутсвуют данные');
+      // throw Exception('Отсутсвуют данные');
+      emit(const AccountancySucces());
     } else {
       throw Exception('Ошибка подключения к серверу');
     }

@@ -6,9 +6,9 @@ import 'core/secure_storage.dart';
 import 'di_container.dart' as di;
 import 'features/confirm/presentation/bloc/confirm_cubit.dart';
 import 'features/login/presentation/bloc/login_cubit.dart';
-// import 'features/login/presentation/pages/login_page.dart';
+import 'features/login/presentation/pages/login_page.dart';
 import 'features/pin_code/presentation/pages/pin_code_page.dart';
-// import 'features/transactions/presentation/pages/home_page/home_page.dart';
+import 'features/transactions/presentation/pages/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,13 +44,18 @@ class App extends StatelessWidget {
           ),
         ],
         child: FutureBuilder(
-          future: SecureCtorage.getIsAuthorized(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          future: SecureCtorage.getAuthStatus(),
+          builder: (BuildContext context, AsyncSnapshot<AuthStatus> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return const PinCodePage();
-              // return snapshot.data! ? const HomePage() : const LoginPage();
+              switch (snapshot.data) {
+                case AuthStatus.pinEnabled:
+                  return const PinCodePage();
+                case AuthStatus.authorized:
+                  return const HomePage();
+                default:
+                  return const LoginPage();
+              }
             } else {
-              //TODO: тут на 2 сек сплешскрин с анимацией и индикатором загрузки
               return const Center(
                 child: CircularProgressIndicator(),
               );

@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exception.dart';
@@ -11,20 +8,39 @@ import '../../domain/entities/transaction_entity.dart';
 import '../../domain/repositories/transaction_repository.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
-  final TransactionRemoteDataSource remoteDataSource;
+  final ITransactionRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
   TransactionRepositoryImpl(
       {required this.networkInfo, required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, Void>> addTransaction({required String authKey}) {
-    // TODO: implement addTransaction
-    throw UnimplementedError();
+  Future<Either<Failure, void>> addTransaction(
+      {required String authKey,
+      required int paymentType,
+      required String sourceId,
+      required String departmentId,
+      required String sum}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteTransactions = await remoteDataSource.addTransaction(
+            authKey: authKey,
+            paymentType: paymentType,
+            sourceId: sourceId,
+            departmentId: departmentId,
+            sum: sum);
+        return Right(remoteTransactions);
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    }
+    return Left(InternetConnectionFailure());
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> getAllTransactions(
+  Future<Either<Failure, List<Transaction>>> getTransactions(
       {int page = 0,
       required String authKey,
       required String startDate,
@@ -32,7 +48,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
       required String filters}) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteTransactions = await remoteDataSource.getAllTransactions(
+        final remoteTransactions = await remoteDataSource.getTransactions(
             authKey: authKey,
             startDate: startDate,
             endDate: endDate,

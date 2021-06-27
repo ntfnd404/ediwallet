@@ -9,3 +9,7 @@ abstract class UseCase<Type, Params> {
 abstract class UseCaseVoid<Type, Params> {
   Future<Either<Failure, void>> call(Params params);
 }
+
+abstract class UseCaseWithoutParams<Type> {
+  Future<Either<Failure, Type>> call();
+}
