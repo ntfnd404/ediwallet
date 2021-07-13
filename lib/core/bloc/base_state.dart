@@ -20,6 +20,8 @@ class ItemsListSuccessState<T> extends BaseState {
 
 class NoInternetConnectionState extends BaseState {}
 
+class SuccessState extends BaseState {}
+
 class FailureState extends BaseState {}
 
 class LoadingState extends BaseState {}

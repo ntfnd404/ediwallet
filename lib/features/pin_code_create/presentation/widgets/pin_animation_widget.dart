@@ -33,6 +33,7 @@ class _PinAnimationWidgetState extends State<PinAnimationWidget>
 
   @override
   void initState() {
+    super.initState();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -47,12 +48,12 @@ class _PinAnimationWidgetState extends State<PinAnimationWidget>
         Tween<double>(begin: 24, end: 72).animate(_animationController);
     _opacityAnimation =
         Tween<double>(begin: 0, end: 1).animate(_animationController);
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // final value = context.findAncestorStateOfType().controller
+
     return Container(
       height: 64,
       width: 64,

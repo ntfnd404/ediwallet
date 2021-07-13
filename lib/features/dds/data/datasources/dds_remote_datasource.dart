@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-import 'package:ediwallet/core/error/exception.dart';
-import 'package:ediwallet/features/dds/data/models/dds_model.dart';
 import 'package:http/http.dart';
 
-abstract class DDSRemoteDataSource {
-  Future<List<DDSModel>> getAllDDS({int page = 0, required String authKey});
+import '../../../../core/error/exception.dart';
+import '../models/dds_model.dart';
+
+abstract class IDDSRemoteDataSource {
+  Future<List<DDSModel>> getDDS({int page = 0, required String authKey});
 }
 
-class DDSRemoteDataSourceImpl implements DDSRemoteDataSource {
+class DDSRemoteDataSource implements IDDSRemoteDataSource {
   Client client;
 
-  DDSRemoteDataSourceImpl({required this.client});
+  DDSRemoteDataSource({required this.client});
 
   @override
-  Future<List<DDSModel>> getAllDDS(
-      {int page = 0, required String authKey}) async {
+  Future<List<DDSModel>> getDDS({int page = 0, required String authKey}) async {
     final Response response = await client.get(
       Uri.https('edison.group', '/cstest/hs/bookkeeping/dds?page=$page'),
       headers: {

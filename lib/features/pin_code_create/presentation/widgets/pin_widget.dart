@@ -12,7 +12,7 @@ class PinController {
 class PinWidget extends StatefulWidget {
   final int pinLegth;
   final PinController pinController;
-  final Function(String) onCompleted;
+  final Function(String?) onCompleted;
 
   const PinWidget(
       {Key? key,

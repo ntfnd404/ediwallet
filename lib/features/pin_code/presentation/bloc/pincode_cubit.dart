@@ -18,9 +18,10 @@ class PinCodeCubit extends Cubit<PinCodeState> {
       enteredCode = enteredCode + number.toString();
     }
     if (enteredCode.length == 4) {
-      if (state is PinCodeInProcess || enteredCode == code) {
+      if (state is PinCodeInProcess && enteredCode == code) {
         emit(PinCodeConfirmed());
       } else {
+        enteredCode = '';
         emit(PinCodeError());
       }
     } else {

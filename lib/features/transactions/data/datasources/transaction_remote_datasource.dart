@@ -11,6 +11,8 @@ abstract class ITransactionRemoteDataSource {
       required int paymentType,
       required String sourceId,
       required String departmentId,
+      required String employeeId,
+      required String employeeType,
       required String sum});
 
   Future<List<TransactionModel>> getTransactions(
@@ -21,10 +23,10 @@ abstract class ITransactionRemoteDataSource {
       required String filters});
 }
 
-class TransactionRemoteDataSourceImpl implements ITransactionRemoteDataSource {
+class TransactionRemoteDataSource implements ITransactionRemoteDataSource {
   Client client;
 
-  TransactionRemoteDataSourceImpl({required this.client});
+  TransactionRemoteDataSource({required this.client});
 
   @override
   Future addTransaction({
@@ -32,6 +34,8 @@ class TransactionRemoteDataSourceImpl implements ITransactionRemoteDataSource {
     required int paymentType,
     required String sourceId,
     required String departmentId,
+    required String employeeId,
+    required String employeeType,
     required String sum,
   }) async {
     final Response response = await client.post(
@@ -41,7 +45,7 @@ class TransactionRemoteDataSourceImpl implements ITransactionRemoteDataSource {
           'Authorization': 'Basic $authKey'
         },
         body:
-            '{"paymentType":$paymentType,"sourceId":"$sourceId","departmentId":"$departmentId","employeeType":"engeneer","employeeId":"133033","sum":"$sum"}'); //engenee, postman, employee
+            '{"paymentType":$paymentType,"sourceId":"$sourceId","departmentId":"$departmentId","employeeType":"engeneer","employeeId":"$employeeId","sum":"$sum"}'); //engenee, postman, employee
 
     if (response.statusCode != 201) {
       throw ServerException();

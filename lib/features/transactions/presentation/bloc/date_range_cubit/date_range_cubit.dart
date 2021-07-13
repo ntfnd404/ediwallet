@@ -23,10 +23,9 @@ class DateRangeCubit extends Cubit<DateRangeState> {
     );
   }
 
-  Future<void> setDateTime(
+  Future setDateTime(
       {required DateTime firstDate, required DateTime lastDate}) async {
-    await setDataRange(
-        DateRangeParams(startDate: firstDate, endDate: lastDate));
+    setDataRange(DateRangeParams(startDate: firstDate, endDate: lastDate));
     emit(DateRangeState(
       firstDate,
       lastDate,

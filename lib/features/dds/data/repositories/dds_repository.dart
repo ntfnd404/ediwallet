@@ -8,7 +8,7 @@ import '../../domain/repositories/i_dds_repository.dart';
 import '../datasources/dds_remote_datasource.dart';
 
 class DDSRepository implements IDDSRepository {
-  final DDSRemoteDataSource remoteDataSource;
+  final IDDSRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
   DDSRepository({required this.networkInfo, required this.remoteDataSource});
@@ -19,7 +19,7 @@ class DDSRepository implements IDDSRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteDDSList =
-            await remoteDataSource.getAllDDS(authKey: authKey);
+            await remoteDataSource.getDDS(page: page, authKey: authKey);
         return Right(remoteDDSList);
       } on ServerException {
         return Left(

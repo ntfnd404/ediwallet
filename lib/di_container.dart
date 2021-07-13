@@ -4,126 +4,167 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
+import 'features/accountancy/presentation/bloc/accountancy_cubit.dart';
 import 'features/dds/data/datasources/dds_remote_datasource.dart';
 import 'features/dds/data/repositories/dds_repository.dart';
 import 'features/dds/domain/repositories/i_dds_repository.dart';
-import 'features/dds/domain/usecases/get_dds.dart';
+import 'features/dds/domain/usecases/get_dds_uc.dart';
 import 'features/dds/presentation/bloc/dds_cubit.dart';
-import 'features/deparments/data/datasources/department_remote_datasource.dart';
-import 'features/deparments/data/repositories/departments_repository_impl.dart';
-import 'features/deparments/domain/repositories/departments_repository.dart';
-import 'features/deparments/domain/usecases/get_departments_func.dart';
-import 'features/deparments/presentation/bloc/departments_cubit.dart';
+import 'features/departments/data/datasources/department_remote_datasource.dart';
+import 'features/departments/data/repositories/departments_repository.dart';
+import 'features/departments/domain/repositories/i_departments_repository.dart';
+import 'features/departments/domain/usecases/get_departments_uc.dart';
+import 'features/departments/presentation/bloc/departments_cubit.dart';
+import 'features/employees/data/datasources/employees_remote_datasource.dart';
+import 'features/employees/data/repositories/employees_repository.dart';
+import 'features/employees/domain/repositories/i_employees_repository.dart';
+import 'features/employees/domain/usecases/get_employees_uc.dart';
+import 'features/employees/presentation/bloc/employees_cubit.dart';
+import 'features/transactions/data/datasources/filters_datasorce.dart';
 import 'features/transactions/data/datasources/preferences_data_source.dart';
 import 'features/transactions/data/datasources/transaction_remote_datasource.dart';
-import 'features/transactions/data/repositories/preferences_repository_impl.dart';
-import 'features/transactions/data/repositories/transaction_repository_impl.dart';
-import 'features/transactions/domain/repositories/preferences_repository.dart';
-import 'features/transactions/domain/repositories/transaction_repository.dart';
+import 'features/transactions/data/repositories/filters_repository.dart';
+import 'features/transactions/data/repositories/preferences_repository.dart';
+import 'features/transactions/data/repositories/transaction_repository.dart';
+import 'features/transactions/domain/repositories/i_filters_repository.dart';
+import 'features/transactions/domain/repositories/i_preferences_repository.dart';
+import 'features/transactions/domain/repositories/i_transaction_repository.dart';
 import 'features/transactions/domain/usecases/add_transaction.dart';
 import 'features/transactions/domain/usecases/get_date_range.dart';
 import 'features/transactions/domain/usecases/get_transactions.dart';
 import 'features/transactions/domain/usecases/set_date_range.dart';
 import 'features/transactions/presentation/bloc/date_range_cubit/date_range_cubit.dart';
-import 'features/transactions/presentation/bloc/transaction_add_cubit.dart';
-import 'features/transactions/presentation/bloc/transactions_list_cubit.dart';
+import 'features/transactions/presentation/bloc/filters_list_bloc/filters_cubit.dart';
+import 'features/transactions/presentation/bloc/transactions_cubit/transaction_add_cubit.dart';
+import 'features/transactions/presentation/bloc/transactions_cubit/transactions_list_cubit.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
   sl.registerFactory<TransactionsListCubit>(
-    () {
-      return TransactionsListCubit(
-        getTransactionsFunc: sl(),
-      );
-    },
+    () => TransactionsListCubit(
+      getTransactionsFunc: sl(),
+    ),
   );
 
   sl.registerFactory<TransactionsAddCubit>(
-    () {
-      return TransactionsAddCubit(
-        addTransactionsFunc: sl(),
-      );
-    },
+    () => TransactionsAddCubit(
+      addTransactionsFunc: sl(),
+    ),
+  );
+
+  sl.registerFactory<FiltersCubit>(
+    () => FiltersCubit(
+      filtersRepository: sl(),
+    ),
   );
 
   sl.registerFactory<DDSCubit>(
-    () {
-      return DDSCubit(
-        getDDSFunc: sl(),
-      );
-    },
+    () => DDSCubit(
+      getDDSFunc: sl(),
+    ),
   );
 
   sl.registerFactory<DepartmentsCubit>(
-    () {
-      return DepartmentsCubit(
-        getDepartmentsFunc: sl(),
-      );
-    },
+    () => DepartmentsCubit(
+      getDepartmentsFunc: sl(),
+    ),
+  );
+
+  sl.registerFactory<EmployeesCubit>(
+    () => EmployeesCubit(
+      getEmployeesFunc: sl(),
+    ),
   );
 
   sl.registerFactory<DateRangeCubit>(
-    () {
-      return DateRangeCubit(
-        setDataRange: sl(),
-        getDateRange: sl(),
-      );
-    },
+    () => DateRangeCubit(
+      setDataRange: sl(),
+      getDateRange: sl(),
+    ),
+  );
+
+  sl.registerFactory<AccountancyCubit>(
+    () => AccountancyCubit(
+      getDateRange: sl(),
+    ),
   );
 
   // Use cases
   sl.registerLazySingleton(() => GetTransactions(
-      preferencesRepository: sl(), transactionRepository: sl()));
+        transactionRepository: sl(),
+        filtersRepository: sl(),
+        getDateRange: sl(),
+      ));
   sl.registerLazySingleton(() => AddTransaction(transactionRepository: sl()));
-  sl.registerLazySingleton(() => GetDDS(ddsRepository: sl()));
-  sl.registerLazySingleton(() => GetDepartments(departmentsRepository: sl()));
   sl.registerLazySingleton(() => SetDateRange(preferencesRepository: sl()));
   sl.registerLazySingleton(() => GetDateRange(preferencesRepository: sl()));
+  sl.registerLazySingleton(() => GetDDS(ddsRepository: sl()));
+  sl.registerLazySingleton(() => GetDepartments(repository: sl()));
+  sl.registerLazySingleton(() => GetEmployees(repository: sl()));
 
   // Repository
-  sl.registerLazySingleton<TransactionRepository>(
-    () => TransactionRepositoryImpl(
+  sl.registerLazySingleton<IPreferencesRepository>(
+    () => PreferencesRepository(
+      preferencesDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<ITransactionRepository>(
+    () => TransactionRepository(
       networkInfo: sl(),
       remoteDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IDepartmentsRepository>(
+    () => DepartmentsRepository(
+      remoteDataSource: sl(),
+      networkInfo: sl(),
     ),
   );
 
   sl.registerLazySingleton<IDDSRepository>(
     () => DDSRepository(
-      networkInfo: sl(),
       remoteDataSource: sl(),
+      networkInfo: sl(),
     ),
   );
 
-  sl.registerLazySingleton<DepartmentsRepository>(
-    () => DepartmentsRepositoryImpl(
-      networkInfo: sl(),
+  sl.registerLazySingleton<IEmployeesRepository>(
+    () => EmployeesRepository(
       remoteDataSource: sl(),
+      networkInfo: sl(),
     ),
   );
 
-  sl.registerLazySingleton<PreferencesRepository>(
-    () => PreferencesRepositoryImpl(
-      preferencesDataSource: sl(),
-    ),
+  sl.registerLazySingleton<IFiltersRepository>(
+    () => FiltersRepository(remoteDataSource: sl()),
   );
 
   // Data sources
-  sl.registerLazySingleton<ITransactionRemoteDataSource>(
-    () => TransactionRemoteDataSourceImpl(client: sl()),
-  );
-
-  sl.registerLazySingleton<DDSRemoteDataSource>(
-    () => DDSRemoteDataSourceImpl(client: sl()),
-  );
-
-  sl.registerLazySingleton<DepartmentsRemoteDataSource>(
-    () => DepartmentsRemoteDataSourceImpl(client: sl()),
-  );
-
   sl.registerLazySingleton<IPreferencesDataSource>(
     () => PreferencesDataSourceImpl(preferences: sl()),
+  );
+
+  sl.registerLazySingleton<ITransactionRemoteDataSource>(
+    () => TransactionRemoteDataSource(client: sl()),
+  );
+
+  sl.registerLazySingleton<IFiltersDataSource>(
+    () => FiltersDataSource(preferences: sl()),
+  );
+
+  sl.registerLazySingleton<IDDSRemoteDataSource>(
+    () => DDSRemoteDataSource(client: sl()),
+  );
+
+  sl.registerLazySingleton<IEmployeesRemoteDataSource>(
+    () => EmployeesRemoteDataSource(client: sl()),
+  );
+
+  sl.registerLazySingleton<IDepartmentsRemoteDataSource>(
+    () => DepartmentsRemoteDataSource(client: sl()),
   );
 
   //! Core

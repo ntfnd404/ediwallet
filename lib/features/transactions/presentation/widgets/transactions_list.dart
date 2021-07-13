@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/bloc/base_state.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../domain/entities/transaction_entity.dart';
-import '../bloc/transactions_list_cubit.dart';
+import '../bloc/transactions_cubit/transactions_list_cubit.dart';
 import 'transaction_list_item.dart';
 
 class TransactionsList extends StatefulWidget {

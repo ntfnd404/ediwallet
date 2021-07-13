@@ -11,7 +11,7 @@ class DDSListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('DDS')),
+      appBar: AppBar(title: const Text('ДДС')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

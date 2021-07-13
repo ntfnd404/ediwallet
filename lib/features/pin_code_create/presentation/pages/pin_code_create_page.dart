@@ -72,11 +72,11 @@ class _PinCodeCreatePageState extends State<PinCodeCreatePage> {
                             pinLegth: 4,
                             pinController: pinController,
                             onCompleted: (input) {
-                              // (input != null)
-                              //     ? BlocProvider.of<PinCodeCubit>(context)
-                              //         .addNumber(int.parse(input))
-                              //     : BlocProvider.of<PinCodeCubit>(context)
-                              //         .deleteLastNumber();
+                              (input != null)
+                                  ? BlocProvider.of<PinCodeCubit>(context)
+                                      .addNumber(int.parse(input))
+                                  : BlocProvider.of<PinCodeCubit>(context)
+                                      .deleteLastNumber();
                             },
                           ),
                         ],
@@ -137,7 +137,7 @@ class KeyboardNumber extends StatelessWidget {
       onTap: () {
         if (n != null) {
           controller.addInput('$n');
-          BlocProvider.of<PinCodeCubit>(context).addNumber(n!);
+          // BlocProvider.of<PinCodeCubit>(context).addNumber(n!);
         } else {
           controller.delete();
           BlocProvider.of<PinCodeCubit>(context).deleteLastNumber();

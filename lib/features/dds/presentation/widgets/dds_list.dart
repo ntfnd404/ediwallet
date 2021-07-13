@@ -29,6 +29,7 @@ class _DDSListState extends State {
         if (state is FailureState) {
           // TODO: показываем блокирующий виджет с ошибкой но позволяем билдеру отрисовать кешированные записи
           // return const Center(child: Text('Ошибка подключения к серверу'));
+          showSnakBar(context, 'Ошибка подключения к серверу');
         } else if (state is NoInternetConnectionState) {
           // TODO: Показать виджет с кнопкой перезапросить с сервера из-за отстусвия интернета и позволяем билдеру отрисовать кешированные записи
           showSnakBar(context, 'Нет соединения с интернетом');
@@ -42,7 +43,8 @@ class _DDSListState extends State {
           //   return const Center(child: Text('Отсутсвуют транзакции'));
           // }
           return RefreshIndicator(
-            onRefresh: () => _onRefresh(),
+            onRefresh: () async =>
+                BlocProvider.of<DDSCubit>(context).getDDSItems(isRefresh: true),
             child: ListView.separated(
               padding: const EdgeInsets.all(10.0),
               controller: _scrollController,
@@ -87,41 +89,6 @@ class _DDSListState extends State {
         }
       },
     );
-
-    // return BlocBuilder<DDSCubit, BaseState>(
-    //   builder: (context, state) {
-    //     switch (state.status) {
-    //       case StateStatus.failure:
-    //         return const Center(child: Text('Ошибка подключения к серверу'));
-    //       case StateStatus.success:
-    //         if (state.items.isEmpty) {
-    //           return const Center(child: Text('Нет новых элементов списка'));
-    //         }
-    //         return RefreshIndicator(
-    //           onRefresh: () => _onRefresh(),
-    //           child: ListView.separated(
-    //             controller: _scrollController,
-    //             physics: const AlwaysScrollableScrollPhysics(),
-    //             itemCount: state.hasReachedMax
-    //                 ? state.items.length
-    //                 : state.items.length + 1,
-    //             itemBuilder: (BuildContext context, int index) {
-    //               return index >= state.items.length
-    //                   ? BottomLoader()
-    //                   : DDSListItem(dds: state.items[index]);
-    //             },
-    //             separatorBuilder: (BuildContext context, int index) {
-    //               return const Divider(
-    //                 color: Colors.black,
-    //               );
-    //             },
-    //           ),
-    //         );
-    //       default:
-    //         return const Center(child: CircularProgressIndicator());
-    //     }
-    //   },
-    // );
   }
 
   @override
@@ -130,23 +97,14 @@ class _DDSListState extends State {
     super.dispose();
   }
 
-  Future<void> _onRefresh() async {
-    // BlocProvider.of<DDSBloc>(context).add(ScrollEvent(isRefresh: true));
-    BlocProvider.of<DDSCubit>(context).getDDSItems(isRefresh: true);
-  }
-
   void _onScroll() {
     if (_isBottom) {
-      // BlocProvider.of<DDSBloc>(context).add(ScrollEvent());
       BlocProvider.of<DDSCubit>(context).getDDSItems();
     }
   }
 
   bool get _isBottom {
     if (!_scrollController.hasClients) return false;
-    // final maxScroll = _scrollController.position.maxScrollExtent;
-    // final currentScroll = _scrollController.offset;
-    // return currentScroll >= (maxScroll * 0.9);
     return _scrollController.position.maxScrollExtent ==
         _scrollController.offset;
   }
